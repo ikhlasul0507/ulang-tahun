@@ -250,11 +250,18 @@
     </section>
   </div>
 
+  <!-- Birthday tune audio; source: open public domain or creative commons -->
+  <audio id="birthdayAudio" loop preload="auto" aria-hidden="true">
+    <source src="https://cdn.jsdelivr.net/gh/jbrown-bnnr/birthday-song@main/birthday_song.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
+
   <!-- Balloons: dynamically created -->
   <script>
     // Enable submit button only if name input is not empty
     const nameInput = document.getElementById('nameInput');
     const btnSubmit = document.getElementById('btnSubmit');
+    const birthdayAudio = document.getElementById('birthdayAudio');
     nameInput.addEventListener('input', function() {
       btnSubmit.disabled = !this.value.trim();
     });
@@ -268,6 +275,14 @@
       e.preventDefault();
       const name = nameInput.value.trim();
       if (!name) return;
+
+      // Play birthday tune audio
+      // Use user interaction to allow autoplay per browser policies
+      birthdayAudio.volume = 0.25;
+      birthdayAudio.play().catch(e => {
+        // Autoplay might be blocked
+        console.log("Audio playback prevented:", e);
+      });
 
       // Hide form, show greeting
       form.style.display = 'none';
